@@ -56,7 +56,7 @@ const Sidebar = ({w="100%"})=>{
 <Stack spacing={'1rem'}>
     {
         adminTabs.map((tab)=>(
-            <>
+            
             <LinkComponent key={tab.path} to={tab.path}
                sx={
                 location.pathname === tab.path && {
@@ -71,7 +71,7 @@ const Sidebar = ({w="100%"})=>{
                 <Typography>{tab.name}</Typography>
             </Stack>
             </LinkComponent>
-            </>
+            
         ))
     }
     <LinkComponent onClick={logoutHandler}
