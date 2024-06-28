@@ -13,12 +13,17 @@ import { useMyChatsQuery } from '../../redux/api/api'
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsMobile } from '../../redux/reducers/misc'
 import { useErrors } from '../../hooks/hook'
+import { getSocket } from '../../socket'
 
 const AppLayout = () => (WrappedComponents) => {
     return (props) => {
         const params = useParams();
         const dispatch = useDispatch();
         const chatId = params.chatId;
+
+        const socket = getSocket();
+
+        // console.log(socket.id);
 
         const {isMobile} = useSelector((state)=>state.misc);
         const {user} = useSelector((state)=>state.auth);
@@ -87,7 +92,7 @@ const AppLayout = () => (WrappedComponents) => {
                         lg={6}
                         height={"100%"}
                     >
-                        <WrappedComponents{...props} />
+                        <WrappedComponents {...props} chatId={chatId} />
                     </Grid>
 
                     <Grid
@@ -98,14 +103,13 @@ const AppLayout = () => (WrappedComponents) => {
 
                         height={"100%"}
                         sx={{
-                            display: { xs: "none", sm: "block" },
+                            display: { xs: "none", sm: "none",md:"block" },
                             padding: "2rem",
                             bgcolor: "rgba(0,0,0,0.85)"
                         }}
                     >
                         <Profile user={user} />
                     </Grid>
-
                 </Grid>
 
 
