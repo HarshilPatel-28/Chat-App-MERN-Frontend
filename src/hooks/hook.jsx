@@ -31,7 +31,8 @@ const useAsyncMutation = (mutatationHook) => {
         });
         setData(res.data);
       } else {
-        toast.error(res?.error?.data?.message || "Something went wrong", {
+        console.log(res.error);
+        toast.error(res?.error?.data?.response?.message || "Something went wrong", {
           id: toastId,
         });
       }

@@ -10,7 +10,7 @@ import { userNotExists } from "../../redux/reducers/auth";
 import axios from "axios";
 import { server } from "../../constants/config";
 import toast from "react-hot-toast";
-import { setIsMobile, setIsSearch } from "../../redux/reducers/misc";
+import { setIsMobile, setIsNotification, setIsSearch } from "../../redux/reducers/misc";
 
 
 const SearchDialog = lazy(() => import("../specific/Search"));
@@ -23,10 +23,10 @@ const Header = () => {
     const dispatch = useDispatch();
 
     
-    const {isSearch} = useSelector(state=>state.misc);
+    const {isSearch,isNotification} = useSelector(state=>state.misc);
     
     const [isNewGroup, setIsNewGroup] = useState(false);
-    const [isNotification, setIsNotification] = useState(false);
+    
 
     const handleMobile = () => dispatch(setIsMobile(true))
     
@@ -53,7 +53,7 @@ const Header = () => {
       };
 
     const openNotification = () => {
-        setIsNotification((prev) => !prev);
+       dispatch(setIsNotification(true))
 
     }
 

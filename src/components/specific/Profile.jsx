@@ -2,11 +2,13 @@
 import { Avatar, Stack, Typography } from "@mui/material"
 import { Face, AlternateEmail, CalendarMonth } from "@mui/icons-material";
 import  moment  from "moment";
+import { transformImage } from "../../lib/features";
 
-const Profile = () => {
+const Profile = ({user}) => {
   return (
     <Stack spacing={'2rem'} direction={'column'} alignItems={'center'}>
         <Avatar 
+        src={transformImage(user?.avatar?.url)}
             sx={{
                 width:200,
                 height:200,
@@ -17,10 +19,10 @@ const Profile = () => {
             }}
         />
 
-        <ProfileCard heading={'Bio'} text={'ddcpeoj jcjw ckk wk kkpkom'}/>
-        <ProfileCard heading={'Username'} text={'harshil___028'} Icon={<AlternateEmail/>}/>
-        <ProfileCard heading={'Name'} text={'Harshil Patel'} Icon={<Face/>}/>
-        <ProfileCard heading={'Joined'} text={moment('2024-01-01T00:00:00.000Z').fromNow()} Icon={<CalendarMonth/>}/>
+        <ProfileCard heading={'Bio'} text={user?.bio}/>
+        <ProfileCard heading={'Username'} text={user?.username} Icon={<AlternateEmail/>}/>
+        <ProfileCard heading={'Name'} text={user?.name} Icon={<Face/>}/>
+        <ProfileCard heading={'Joined'} text={moment(user?.createdAt).fromNow()} Icon={<CalendarMonth/>}/>
     </Stack>
   )
 }
