@@ -58,6 +58,13 @@ const api = createApi({
             },
             providesTags: ["Chat"],
           }),
+          getMessages: builder.query({
+            query: ({ chatId, page }) => ({
+              url: `chat/message/${chatId}?page=${page}`,
+              credentials: "include",
+            }),
+            keepUnusedDataFor: 0,
+          }),
       
     }),
 });
@@ -70,5 +77,6 @@ export const {
     useGetNotificationsQuery,
     useAcceptFriendRequestMutation,
     useChatDetailsQuery,
+    useGetMessagesQuery,
 
 } = api;
