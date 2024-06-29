@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { AppBar, Backdrop, Box, IconButton, Toolbar, Tooltip, Typography } from "@mui/material"
+import { AppBar, Backdrop, Badge, Box, IconButton, Toolbar, Tooltip, Typography } from "@mui/material"
 import { orange } from "../../constants/color"
 import { Add, Group, Logout, Menu, Notifications, Search as SearchIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import axios from "axios";
 import { server } from "../../constants/config";
 import toast from "react-hot-toast";
 import { setIsMobile, setIsNotification, setIsSearch } from "../../redux/reducers/misc";
+import { resetNotificationCount } from "../../redux/reducers/chat";
 
 
 const SearchDialog = lazy(() => import("../specific/Search"));
@@ -24,6 +25,8 @@ const Header = () => {
 
     
     const {isSearch,isNotification} = useSelector(state=>state.misc);
+    const {notificationCount} = useSelector(state=>state.chat);
+    
     
     const [isNewGroup, setIsNewGroup] = useState(false);
     
@@ -54,6 +57,7 @@ const Header = () => {
 
     const openNotification = () => {
        dispatch(setIsNotification(true))
+       dispatch(resetNotificationCount(true))
 
     }
 
@@ -108,7 +112,7 @@ const Header = () => {
                             <IconBtn icon={<SearchIcon />} onClick={openSearch} title={"Search"} />
                             <IconBtn icon={<Add />} onClick={openNewGroup} title={"New Group"} />
                             <IconBtn icon={<Group />} onClick={navigateToGroup} title={"Manage Group"} />
-                            <IconBtn icon={<Notifications />} onClick={openNotification} title={"Notification"} />
+                            <IconBtn icon={<Notifications />}  onClick={openNotification} title={"Notification"} value={notificationCount} />
                             <IconBtn icon={<Logout />} onClick={logoutHandler} title={"Logout"} />
 
                         </Box>
@@ -144,12 +148,12 @@ const Header = () => {
     )
 }
 
-const IconBtn = ({ title, icon, onClick }) => {
+const IconBtn = ({ title, icon, onClick,value }) => {
     return (
         <Tooltip title={title}>
 
             <IconButton color="inherit" size="large" onClick={onClick}>
-                {icon}
+                {value ? <Badge badgeContent={value} color="eror"> {icon} </Badge> : icon}
             </IconButton>
         </Tooltip>
     )
