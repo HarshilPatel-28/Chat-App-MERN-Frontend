@@ -11,7 +11,7 @@ import { LinkElement } from "../components/styles/StyledComponents";
 import { sampleChats, sampleUsers } from "../constants/sampleData";
 import { useEffect } from "react";
 import UserItem from "../components/shared/UserItem";
-import { useAddGroupMembersMutation, useChatDetailsQuery, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
+import { useAddGroupMembersMutation, useChatDetailsQuery, useDeleteChatMutation, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
 import { useAsyncMutation, useErrors } from "../hooks/hook";
 import { LayoutLoader } from "../components/layout/Loaders";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +41,7 @@ const Groups = () => {
 
   const [updateGroup, isLoadingGroupName] =useAsyncMutation(useRenameGroupMutation) 
   const [removeMember, isLoadingRemoveMember] =useAsyncMutation(useRemoveGroupMemberMutation) 
+  const [deleteGroup, isLoadingDeleteGroup] =useAsyncMutation(useDeleteChatMutation) 
 
 
 
@@ -112,9 +113,10 @@ const Groups = () => {
   };
 
   const deleteHandler = () => {
-    console.log("Delete Handler");
+    deleteGroup("Deleting Group...", chatId);
     closeConfirmDeleteHandler();
-  }
+    navigate("/groups");
+  };
 
   
   const removeMemberHandler = (userId) => {
