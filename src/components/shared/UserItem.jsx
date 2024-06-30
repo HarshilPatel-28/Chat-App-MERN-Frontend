@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Add, Remove } from '@mui/icons-material';
 import { Avatar, IconButton, ListItem, Stack, Typography } from '@mui/material';
@@ -6,6 +7,7 @@ import { transformImage } from '../../lib/features';
 
 const UserItem = ({ user, handler, handlerIsLoading ,isAdded = false,styling={}}) => {
     const { name, _id, avatar } = user;
+    const avatarSrc = Array.isArray(avatar) ? avatar[0] : avatar;
     return (
         <ListItem>
             <Stack
@@ -15,7 +17,8 @@ const UserItem = ({ user, handler, handlerIsLoading ,isAdded = false,styling={}}
                 width={'100%'}
                 {...styling}
             >
-                <Avatar src={transformImage(avatar)} />
+                
+                <Avatar src={transformImage(avatarSrc)} />
                 <Typography
                     variant='body1'
                     sx={{
