@@ -1,20 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
 /* eslint-disable no-unused-vars */
-import { Backdrop, Box, Button, CircularProgress, Drawer, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material"
 import { Add, Delete, Done, Edit, KeyboardBackspace, Menu } from "@mui/icons-material";
-import { bgGradient, matBlack } from "../constants/color";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Suspense, lazy, memo, useState } from "react";
-import AvatarCard from "../components/shared/AvatarCard";
-import { LinkElement } from "../components/styles/StyledComponents";
-import { sampleChats, sampleUsers } from "../constants/sampleData";
-import { useEffect } from "react";
-import UserItem from "../components/shared/UserItem";
-import { useAddGroupMembersMutation, useChatDetailsQuery, useDeleteChatMutation, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
-import { useAsyncMutation, useErrors } from "../hooks/hook";
-import { LayoutLoader } from "../components/layout/Loaders";
+import { Backdrop, Box, Button, CircularProgress, Drawer, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Suspense, lazy, memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { LayoutLoader } from "../components/layout/Loaders";
+import AvatarCard from "../components/shared/AvatarCard";
+import UserItem from "../components/shared/UserItem";
+import { LinkElement } from "../components/styles/StyledComponents";
+import { bgGradient, matBlack } from "../constants/color";
+import { useAsyncMutation, useErrors } from "../hooks/hook";
+import { useChatDetailsQuery, useDeleteChatMutation, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
 import { setIsAddMember } from "../redux/reducers/misc";
 
 
