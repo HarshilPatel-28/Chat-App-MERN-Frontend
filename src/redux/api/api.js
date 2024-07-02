@@ -89,7 +89,7 @@ const api = createApi({
       providesTags: ["Chat"],
     }),
 
-      lableFriends: builder.query({
+    availableFriends: builder.query({
       query: (chatId) => {
         let url = `user/friends`;
         if (chatId) url += `?chatId=${chatId}`;
@@ -180,4 +180,4 @@ export const {
   useAddGroupMembersMutation,
   useDeleteChatMutation,
   useLeaveGroupMutation,
-} = api;  
+} = api;

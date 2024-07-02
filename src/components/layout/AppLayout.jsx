@@ -80,6 +80,7 @@ const AppLayout = () => (WrappedComponent) => {
 
     const onlineUsersListener = useCallback((data) => {
       setOnlineUsers(data);
+      
     }, []);
 
     const eventHandlers = {

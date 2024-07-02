@@ -17,7 +17,7 @@ const NewGroup = () => {
 
   const dispatch = useDispatch();
 
-  const {isError,isLoading,error,data} = useAvailableFriendsQuery("")
+  const {isError,isLoading,error,data} = useAvailableFriendsQuery
   const [newGroup, isLoadingNewGroup] = useAsyncMutation(useNewGroupMutation);
   
 
