@@ -1,10 +1,11 @@
-/* eslint-disable no-unused-vars */
-import { Avatar, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useFetchData } from "6pp";
+import { Avatar, Skeleton, Stack } from "@mui/material";
+import  { useEffect, useState } from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
 import AvatarCard from "../../components/shared/AvatarCard";
 import Table from "../../components/shared/Table";
-import { dashboardData } from "../../constants/sampleData";
+import { server } from "../../constants/config";
+import { useErrors } from "../../hooks/hook";
 import { transformImage } from "../../lib/features";
 
 const columns = [
@@ -70,13 +71,25 @@ const columns = [
   },
 ];
 
-const ChatManagment = () => {
-  const [rows,setRows] = useState([]);
+const ChatManagement = () => {
+  const { loading, data, error } = useFetchData(
+    `${server}/api/v1/admin/chats`,
+    "dashboard-chats"
+  );
+
+  useErrors([
+    {
+      isError: error,
+      error: error,
+    },
+  ]);
+
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    
+    if (data) {
       setRows(
-        dashboardData.chats.map((i) => ({
+        data.chats.map((i) => ({
           ...i,
           id: i._id,
           avatar: i.avatar.map((i) => transformImage(i, 50)),
@@ -87,16 +100,18 @@ const ChatManagment = () => {
           },
         }))
       );
-    
-  }, []);
-  
+    }
+  }, [data]);
+
   return (
     <AdminLayout>
-        <Table heading={'All Chats'} columns={columns} rows={rows} />
+      {loading ? (
+        <Skeleton height={"100vh"} />
+      ) : (
+        <Table heading={"All Chats"} columns={columns} rows={rows} />
+      )}
     </AdminLayout>
-  )
-}
+  );
+};
 
-
-
-export default ChatManagment
+export default ChatManagement;
