@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Box, Container, Paper, Stack, Typography } from "@mui/material"
-import AdminLayout from "../../components/layout/AdminLayout"
+import { useFetchData } from "6pp"
 import { AdminPanelSettings, Group, Message, Notifications, Person } from "@mui/icons-material"
+import { Box, Container, Paper, Skeleton, Stack, Typography } from "@mui/material"
 import moment from "moment"
+import AdminLayout from "../../components/layout/AdminLayout"
+import { DoughnutChart, LineChart } from "../../components/specific/Charts"
 import { CurveButton, SearchField } from "../../components/styles/StyledComponents"
 import { matBlack } from "../../constants/color"
-import { DoughnutChart, LineChart } from "../../components/specific/Charts"
-import { useFetchData } from "6pp"
 import { server } from "../../constants/config"
-import { LayoutLoader } from "../../components/layout/Loaders"
 import { useErrors } from "../../hooks/hook"
 
 
@@ -70,72 +69,75 @@ const Widgets = (
     <Widget title={'Messages'} value={stats?.messagesCount} Icon={<Message/>}/>
 </Stack>)
 
-  return loading ? <LayoutLoader /> : (
+  return (
     <AdminLayout>
+      {
+        loading ? <Skeleton height={"100vh"} /> : 
         <Container component={'main'}>
-            {Appbar}
-        <Stack  direction={{
-              xs: "column",
-              lg: "row",
-            }}
-            flexWrap={"wrap"}
-            justifyContent={"center"}
-            alignItems={{
-              xs: "center",
-              lg: "stretch",
-            }}
-            sx={{ gap: "2rem" }}>
-            <Paper
-                elevation={3}
-                sx={{
-                    padding:"2rem 3.5rem",
-                    borderRadius:"1rem",
-                    width:"100%",
-                    maxWidth:"45rem",
-                    
-                }}
-            >
-                <Typography margin={'2rem 0'} variant="h4">Last Messages</Typography>
-
-                <LineChart value={stats?.messagesChart || []}/> 
-
-            </Paper>
-
-            <Paper
+        {Appbar}
+    <Stack  direction={{
+          xs: "column",
+          lg: "row",
+        }}
+        flexWrap={"wrap"}
+        justifyContent={"center"}
+        alignItems={{
+          xs: "center",
+          lg: "stretch",
+        }}
+        sx={{ gap: "2rem" }}>
+        <Paper
             elevation={3}
             sx={{
-                padding:"1rem ",
+                padding:"2rem 3.5rem",
                 borderRadius:"1rem",
-                display:"flex",
-                justifyContent:"center",
-                alignItems:"center",
-                width:{xs:"100%" ,sm:"50%"},
-                position:"relative",
-               
-                maxWidth:"25rem",
-                height:"25rem"
+                width:"100%",
+                maxWidth:"45rem",
+                
             }}
-            >
-                <DoughnutChart  labels={['Single Chats','Group Chats']} 
-                value={[stats?.totalChatsCount - stats?.groupsCount || 0,
-                stats?.groupsCount || 0]}/>
+        >
+            <Typography margin={'2rem 0'} variant="h4">Last Messages</Typography>
+
+            <LineChart value={stats?.messagesChart || []}/> 
+
+        </Paper>
+
+        <Paper
+        elevation={3}
+        sx={{
+            padding:"1rem ",
+            borderRadius:"1rem",
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            width:{xs:"100%" ,sm:"50%"},
+            position:"relative",
+           
+            maxWidth:"25rem",
+            height:"25rem"
+        }}
+        >
+            <DoughnutChart  labels={['Single Chats','Group Chats']} 
+            value={[stats?.totalChatsCount - stats?.groupsCount || 0,
+            stats?.groupsCount || 0]}/>
 <Stack
-    position={'absolute'}
-    direction={'row'}
-    spacing={'0.5rem'}
-    justifyContent={'center'}
-    alignItems={'center'}
-    width={'100%'}
-    height={'100%'}
+position={'absolute'}
+direction={'row'}
+spacing={'0.5rem'}
+justifyContent={'center'}
+alignItems={'center'}
+width={'100%'}
+height={'100%'}
 >
 <Group /> <Typography>Vs</Typography>
 <Person />
 </Stack>
-            </Paper>
-        </Stack>
+        </Paper>
+    </Stack>
 
-        {Widgets}
-        </Container>
+    {Widgets}
+    </Container>
+      }
 
     </AdminLayout>
   )
