@@ -89,7 +89,7 @@ const api = createApi({
       providesTags: ["Chat"],
     }),
 
-    availableFriends: builder.query({
+      lableFriends: builder.query({
       query: (chatId) => {
         let url = `user/friends`;
         if (chatId) url += `?chatId=${chatId}`;

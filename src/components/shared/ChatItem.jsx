@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
-import { Link } from "react-router-dom"
-import { LinkElement } from "../styles/StyledComponents"
 import { Box, Stack, Typography } from "@mui/material"
 import { memo } from "react"
+import { LinkElement } from "../styles/StyledComponents"
 import AvatarCard from "./AvatarCard"
+import {motion} from 'framer-motion'
 
 
 const ChatItem = ({
@@ -26,7 +26,10 @@ const ChatItem = ({
         }}
             onContextMenu={(e)=> handleDeleteChat(e,_id,groupChat)}
         >
-            <div
+            <motion.div
+                initial={{opacity:0, y:"-100%"}}
+                whileInView={{opacity:1,y:0}}
+                transition={{delay: index*0.1}}
                 style={{
 
                     display: "flex",
@@ -70,7 +73,7 @@ const ChatItem = ({
                     )
                 }
 
-            </div>
+            </motion.div>
         </LinkElement >
     )
 }

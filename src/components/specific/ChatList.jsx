@@ -33,6 +33,7 @@ const ChatList = ({
                     return (
                         <ChatItem
                             key={index}
+                            index={index}
                             newMessageAlert={newMessageAlert}
                             isOnline={isOnline}
                             avatar={avatar}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Box, Container, Paper, Stack, Typography } from "@mui/material"
 import AdminLayout from "../../components/layout/AdminLayout"
@@ -6,9 +7,27 @@ import moment from "moment"
 import { CurveButton, SearchField } from "../../components/styles/StyledComponents"
 import { matBlack } from "../../constants/color"
 import { DoughnutChart, LineChart } from "../../components/specific/Charts"
+import { useFetchData } from "6pp"
+import { server } from "../../constants/config"
+import { LayoutLoader } from "../../components/layout/Loaders"
+import { useErrors } from "../../hooks/hook"
 
 
 const Dashboard = () => {
+  const { loading, data, error } = useFetchData(
+    `${server}/api/v1/admin/stats`,
+    "dashboard-stats"
+  );
+
+  const { stats } = data || {};
+
+  useErrors([
+    {
+      isError: error,
+      error: error,
+    },
+  ]);
+
     const Appbar = <Paper
     elevation={3}
     sx={{
@@ -46,11 +65,12 @@ const Widgets = (
     alignItems={'center'}
     margin={'2rem 0'}
 >
-    <Widget title={'Users'} value={34} Icon={<Person/>}/>
-    <Widget title={'Chats'} value={3} Icon={<Group/>}/>
-    <Widget title={'Messages'} value={453} Icon={<Message/>}/>
+    <Widget title={'Users'} value={stats?.usersCount} Icon={<Person/>}/>
+    <Widget title={'Chats'} value={stats?.totalChatsCount} Icon={<Group/>}/>
+    <Widget title={'Messages'} value={stats?.messagesCount} Icon={<Message/>}/>
 </Stack>)
-  return (
+
+  return loading ? <LayoutLoader /> : (
     <AdminLayout>
         <Container component={'main'}>
             {Appbar}
@@ -77,7 +97,7 @@ const Widgets = (
             >
                 <Typography margin={'2rem 0'} variant="h4">Last Messages</Typography>
 
-                <LineChart value={[1,2,34,6]}/> 
+                <LineChart value={stats?.messagesChart || []}/> 
 
             </Paper>
 
@@ -96,7 +116,9 @@ const Widgets = (
                 height:"25rem"
             }}
             >
-                <DoughnutChart  labels={['Single Chats','Group Chats']} value={[5,66]}/>
+                <DoughnutChart  labels={['Single Chats','Group Chats']} 
+                value={[stats?.totalChatsCount - stats?.groupsCount || 0,
+                stats?.groupsCount || 0]}/>
 <Stack
     position={'absolute'}
     direction={'row'}
